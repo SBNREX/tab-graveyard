@@ -3,7 +3,7 @@ const Database = require('better-sqlite3');
 const path = require('path');
 
 const app = express();
-const db = new Database(path.join(__dirname, 'graveyard.db'));
+const db = new Database(process.env.DATABASE_PATH || path.join(__dirname, 'graveyard.db'));
 const PORT = 3000;
 const GRACE_PERIOD_MS = 24 * 60 * 60 * 1000;
 
@@ -317,6 +317,10 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Internal server error' });
 });
 
-app.listen(PORT, () => {
-  console.log(`Graveyard API running at http://localhost:${PORT}`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Graveyard API running at http://localhost:${PORT}`);
+  });
+}
+
+module.exports = { app, db };
