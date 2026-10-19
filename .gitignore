@@ -1,0 +1,6 @@
+node_modules/
+graveyard.db
+graveyard.db-shm
+graveyard.db-wal
+.env
+.DS_Store
